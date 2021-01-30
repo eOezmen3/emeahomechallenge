@@ -6,6 +6,7 @@ import { AlertProvider } from "react-alerts-plus";
 import App from "./App.js";
 import Header from "./components/header/Header";
 import BookDetail from "./components/book/BookDetail";
+import Cart from "./components/cart/Cart";
 
 ReactDOM.render(
   <BrowserRouter>
@@ -14,6 +15,7 @@ ReactDOM.render(
       <Switch>
         <Route exact path="/" component={App} />
         <Route path="/bookdetail" component={BookDetail} />
+        <Route path="/cart" component={Cart} />
       </Switch>
     </AlertProvider>
   </BrowserRouter>,

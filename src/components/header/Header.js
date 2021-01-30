@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import React, { forwardRef, useState } from "react";
+import { Link, useHistory } from "react-router-dom";
 
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -37,7 +37,10 @@ function Header() {
     history.push("/");
   };
 
-  useState(() => {}, []);
+  // eslint-disable-next-line react/display-name
+  const CartLink = forwardRef((props, ref) => (
+    <Link to={{ pathname: "/cart", state: {} }} {...props} ref={ref} />
+  ));
 
   return (
     <>
@@ -56,7 +59,9 @@ function Header() {
           >
             Book Shop
           </Typography>
-          <Button color="inherit">Cart</Button>
+          <Button component={CartLink} color="inherit">
+            Cart
+          </Button>
         </Toolbar>
       </AppBar>
     </>

@@ -33,7 +33,5 @@ describe("BookDetail", () => {
     render(<BookDetail book={{ book }} />);
     fireEvent.click(await screen.findByRole("button"));
     expect(JSON.parse(localStorage.getItem(KEY))).toHaveLength(2);
-
-    //   expect(pretty(container.innerHTML)).toMatchSnapshot();
   });
 });
