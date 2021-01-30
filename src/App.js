@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
+import axios from "axios";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
-import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
+import BookCard from "./components/BookCard";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,19 +26,34 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function CategoryPage() {
+function CategoryPage() {
   const classes = useStyles();
 
   const [books, setBooks] = useState({});
 
   useEffect(() => {
-    function fetchBooks() {
-      fetch("http://localhost:3000/api/books")
-        .then((res) => res.json())
-        .then((booksObj) => setBooks(booksObj));
-    }
+    const axiosConfig = {
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+        "Access-Control-Allow-Origin": "*",
+      },
+    };
+    const fetchBooks = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/api/books",
+          axiosConfig
+        );
+
+        if (response && response.status === 200) {
+          setBooks(response.data);
+        }
+      } catch (err) {
+        throw new Error(err);
+      }
+    };
     fetchBooks();
-  });
+  }, []);
 
   return (
     <div className={classes.root}>
@@ -66,49 +80,4 @@ export default function CategoryPage() {
   );
 }
 
-const cardStyles = makeStyles({
-  root: {
-    minWidth: "50%",
-    marginBottom: 8,
-  },
-  title: {
-    fontSize: 14,
-  },
-  pos: {
-    marginBottom: 12,
-  },
-});
-
-function BookCard(props) {
-  const classes = cardStyles();
-
-  const { books } = props;
-
-  return (
-    <>
-      {Object.keys(books).map((bookIndex) => {
-        const book = books[bookIndex];
-
-        return (
-          <Card key={book.Title} className={classes.root}>
-            <CardContent>
-              <Typography variant="h5" component="h2">
-                {book.Title}
-              </Typography>
-              <Typography
-                className={classes.title}
-                color="textSecondary"
-                gutterBottom
-              >
-                {book.Author}
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Button size="small">Book in detail</Button>
-            </CardActions>
-          </Card>
-        );
-      })}
-    </>
-  );
-}
+export default CategoryPage;
