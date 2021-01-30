@@ -17,7 +17,7 @@ module.exports = {
   // Matches parent folder `__tests__` and filename
   // should contain `test` or `spec`.
   collectCoverage: true,
-  collectCoverageFrom: ["src/**/*", "!dist/*", "!src/index.js"],
+  collectCoverageFrom: ["src/**/*", "!dist/*", "!src/index.js", "!src/App.js"],
 
   coverageDirectory: "<rootDir>/coverage/",
   coverageThreshold: {
